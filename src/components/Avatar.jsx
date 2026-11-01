@@ -1,0 +1,36 @@
+import { people } from '../data/release.js';
+
+/** Initials avatar with a gradient per person; `online` adds a presence dot. */
+export default function Avatar({ id, size = 22, online = false, ring = true, className = '' }) {
+  const person = people[id];
+  const [from, to] = person?.hue ?? ['#9ca3af', '#4b5563'];
+  return (
+    <span
+      title={person ? `${person.name} · ${person.role}` : id}
+      className={`relative inline-grid shrink-0 place-items-center rounded-full font-bold text-white ${
+        ring ? 'border-2 border-[#2a1d14]/90' : ''
+      } ${className}`}
+      style={{
+        width: size,
+        height: size,
+        fontSize: Math.max(8, size * 0.36),
+        background: `linear-gradient(135deg, ${from}, ${to})`,
+      }}
+    >
+      {id}
+      {online && (
+        <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 border-[#2a1d14] bg-pass" />
+      )}
+    </span>
+  );
+}
+
+export function AvatarStack({ ids, size = 22 }) {
+  return (
+    <div className="flex">
+      {ids.map((id, i) => (
+        <Avatar key={id} id={id} size={size} className={i ? '-ml-1.5' : ''} />
+      ))}
+    </div>
+  );
+}
