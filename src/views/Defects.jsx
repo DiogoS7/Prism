@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LuSearch, LuX, LuLink } from 'react-icons/lu';
 import GlassCard, { CardHeader } from '../components/GlassCard.jsx';
@@ -38,12 +38,16 @@ export function SeverityPill({ severity }) {
   );
 }
 
-export default function Defects({ defects, filters, onFilters }) {
-  const [selectedId, setSelectedId] = useState(null);
+export default function Defects({ defects, filters, onFilters, selectedId, onSelect: setSelectedId, onOpenRequirement }) {
   const rows = useMemo(() => filterDefects(defects, filters), [defects, filters]);
   const selected = defects.find((d) => d.id === selectedId);
   const req = selected && requirements.find((r) => r.id === selected.reqId);
   const set = (patch) => onFilters({ ...filters, ...patch });
+
+  // Bring a defect opened from notifications or search into view.
+  useEffect(() => {
+    if (selectedId) document.getElementById(`row-${selectedId}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [selectedId]);
 
   return (
     <div className="grid gap-[18px] xl:grid-cols-[1fr_340px]">
@@ -106,6 +110,7 @@ export default function Defects({ defects, filters, onFilters }) {
               {rows.map((d) => (
                 <tr
                   key={d.id}
+                  id={`row-${d.id}`}
                   onClick={() => setSelectedId(d.id)}
                   className={`cursor-pointer border-t border-white/[0.06] transition hover:bg-white/[0.06] ${
                     selectedId === d.id ? 'bg-white/10' : ''
@@ -181,9 +186,9 @@ export default function Defects({ defects, filters, onFilters }) {
                   <p className="flex items-center gap-1.5 text-faint">
                     <LuLink size={12} /> Traced to requirement
                   </p>
-                  <p className="mt-1 font-semibold">
+                  <button onClick={() => onOpenRequirement(req.id)} className="mt-1 font-semibold underline-offset-2 hover:underline">
                     {req.id} <span className="font-normal text-muted">· {req.priority}</span>
-                  </p>
+                  </button>
                   <p className="mt-0.5 text-muted">{req.title}</p>
                 </div>
               )}

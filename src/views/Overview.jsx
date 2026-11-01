@@ -18,6 +18,7 @@ export default function Overview({ scopeKey, scope, m, onNavigate }) {
       icon: LuFlaskConical,
       tint: '#f5a524',
       points: sparklines.executed,
+      onOpen: () => onNavigate('runs'),
     },
     {
       title: 'Pass rate',
@@ -27,6 +28,7 @@ export default function Overview({ scopeKey, scope, m, onNavigate }) {
       icon: LuCircleCheck,
       tint: '#4ade80',
       points: sparklines.passRate,
+      onOpen: () => onNavigate('runs'),
     },
     {
       title: 'Open defects',

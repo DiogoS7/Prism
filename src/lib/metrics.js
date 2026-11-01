@@ -157,6 +157,40 @@ export function niceAxis(maxValue, target = 4) {
   return { max, ticks };
 }
 
+/** One row per linked test case: its details, latest result and the requirement it covers. */
+export function testRunRows(requirements, testCases) {
+  return requirements
+    .flatMap((r) => r.tests.map((t) => ({ ...testCases[t.id], id: t.id, status: t.status, reqId: r.id, priority: r.priority })))
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+export const RUN_STATUSES = ['passed', 'failed', 'blocked', 'not run'];
+
+/** Count test cases per latest status, always returning every status key. */
+export function runSummary(rows) {
+  const counts = Object.fromEntries(RUN_STATUSES.map((s) => [s, 0]));
+  for (const r of rows) counts[r.status] += 1;
+  return counts;
+}
+
+/** Filter used by the Test runs view. */
+export function filterRuns(rows, { query = '', status = 'All', suite = 'All' } = {}) {
+  const q = query.trim().toLowerCase();
+  return rows.filter((r) => {
+    if (status !== 'All' && r.status !== status) return false;
+    if (suite !== 'All' && r.suite !== suite) return false;
+    return !q || [r.id, r.title, r.reqId].some((v) => v.toLowerCase().includes(q));
+  });
+}
+
+/** Seconds to a short human duration: 95 → "1m 35s". */
+export function formatDuration(sec) {
+  if (!sec) return '—';
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return m ? `${m}m ${String(s).padStart(2, '0')}s` : `${s}s`;
+}
+
 export function greeting(date = new Date()) {
   const h = date.getHours();
   if (h < 12) return 'Good morning';

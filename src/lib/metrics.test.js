@@ -14,8 +14,12 @@ import {
   niceAxis,
   sparkPath,
   greeting,
+  testRunRows,
+  runSummary,
+  filterRuns,
+  formatDuration,
 } from './metrics.js';
-import { scopes, defects, requirements, manualGates } from '../data/release.js';
+import { scopes, SPRINT_KEYS, defects, requirements, manualGates, testCases } from '../data/release.js';
 
 const series = [
   { label: 'Mon', passed: 8, failed: 1, blocked: 1 },
@@ -187,5 +191,58 @@ describe('greeting', () => {
     [21, 'Good evening'],
   ])('at %d:00 says %s', (hour, expected) => {
     expect(greeting(new Date(2026, 0, 1, hour))).toBe(expected);
+  });
+});
+
+describe('test runs', () => {
+  const rows = testRunRows(requirements, testCases);
+
+  it('has one row per linked test, each with details and its requirement', () => {
+    expect(rows).toHaveLength(20);
+    expect(rows.every((r) => r.title && r.suite && r.reqId)).toBe(true);
+    expect(rows.find((r) => r.id === 'TC-230')).toMatchObject({ status: 'failed', reqId: 'REQ-104' });
+  });
+
+  it('counts every status', () => {
+    expect(runSummary(rows)).toEqual({ passed: 14, failed: 4, blocked: 1, 'not run': 1 });
+  });
+
+  it('filters by status, suite and text', () => {
+    expect(filterRuns(rows, { status: 'failed' })).toHaveLength(4);
+    expect(filterRuns(rows, { suite: 'UAT' }).every((r) => r.suite === 'UAT')).toBe(true);
+    expect(filterRuns(rows, { query: 'req-104' }).map((r) => r.id)).toEqual(['TC-230', 'TC-231']);
+  });
+});
+
+describe('formatDuration', () => {
+  it.each([
+    [0, '—'],
+    [42, '42s'],
+    [95, '1m 35s'],
+    [180, '3m 00s'],
+  ])('formats %d seconds as %s', (sec, expected) => {
+    expect(formatDuration(sec)).toBe(expected);
+  });
+});
+
+describe('sample data consistency', () => {
+  it('release totals per sprint match each sprint\'s daily runs', () => {
+    for (const point of scopes.release.series) {
+      const sprint = scopes[`sprint${point.label.slice(1)}`];
+      const { passed, failed, blocked } = summariseExecution(sprint.series);
+      expect({ passed, failed, blocked }).toEqual({ passed: point.passed, failed: point.failed, blocked: point.blocked });
+    }
+  });
+
+  it('each sprint compares against the real figures of the sprint before', () => {
+    SPRINT_KEYS.slice(0, -1).forEach((key, i) => {
+      const before = summariseExecution(scopes[SPRINT_KEYS[i + 1]].series);
+      expect(scopes[key].previous.executed).toBe(before.executed);
+      expect(scopes[key].previous.passRate).toBe(passRate(before));
+    });
+  });
+
+  it('marks exactly one sprint as current', () => {
+    expect(SPRINT_KEYS.filter((k) => scopes[k].current)).toEqual(['sprint15']);
   });
 });

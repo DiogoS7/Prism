@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GlassCard, { CardHeader } from '../components/GlassCard.jsx';
 import { Ring } from '../components/ReadinessCard.jsx';
 import { requirementStatus } from '../lib/metrics.js';
@@ -20,8 +20,12 @@ const TEST_DOT = {
 const PRIORITY = { Must: 'text-ink', Should: 'text-muted', Could: 'text-faint' };
 
 /** Requirements traceability matrix (RTM): every requirement, its tests and their latest result. */
-export default function Traceability({ requirements, trace }) {
+export default function Traceability({ requirements, trace, highlightId, onOpenTest }) {
   const [gapsOnly, setGapsOnly] = useState(false);
+
+  useEffect(() => {
+    if (highlightId) setTimeout(() => document.getElementById(`req-${highlightId}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 350);
+  }, [highlightId]);
   const rows = requirements
     .map((r) => ({ ...r, status: requirementStatus(r) }))
     .filter((r) => !gapsOnly || r.status !== 'verified');
@@ -89,7 +93,7 @@ export default function Traceability({ requirements, trace }) {
             </thead>
             <tbody>
               {rows.map((r) => (
-                <tr key={r.id} className="border-t border-white/[0.06] transition hover:bg-white/[0.06]">
+                <tr key={r.id} id={`req-${r.id}`} className={`border-t border-white/[0.06] transition hover:bg-white/[0.06] ${r.id === highlightId ? 'bg-white/10 outline outline-1 outline-white/25' : ''}`}>
                   <td className="px-3 py-3">
                     <p className="font-semibold">{r.id}</p>
                     <p className="text-muted">{r.title}</p>
@@ -99,10 +103,10 @@ export default function Traceability({ requirements, trace }) {
                     {r.tests.length ? (
                       <div className="flex flex-wrap gap-2">
                         {r.tests.map((t) => (
-                          <span key={t.id} title={`${t.id}: ${t.status}`} className="glass-inset flex items-center gap-1.5 rounded-full px-2 py-1 text-[11px]">
+                          <button key={t.id} onClick={() => onOpenTest(t.id)} title={`${t.id}: ${t.status} – open in Test runs`} className="glass-inset flex items-center gap-1.5 rounded-full px-2 py-1 text-[11px] transition hover:bg-white/15">
                             <i className={`size-2 rounded-full ${TEST_DOT[t.status]}`} />
                             {t.id}
-                          </span>
+                          </button>
                         ))}
                       </div>
                     ) : (

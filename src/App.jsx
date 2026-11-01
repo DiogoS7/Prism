@@ -7,7 +7,11 @@ import SideDock from './components/SideDock.jsx';
 import Overview from './views/Overview.jsx';
 import Defects from './views/Defects.jsx';
 import Traceability from './views/Traceability.jsx';
-import { release, scopes, defects, requirements, manualGates } from './data/release.js';
+import TestRuns from './views/TestRuns.jsx';
+import SearchPalette from './components/SearchPalette.jsx';
+import ScopePicker from './components/ScopePicker.jsx';
+import QaAgent from './components/QaAgent.jsx';
+import { release, scopes, defects, requirements, manualGates, testCases, people, agenda } from './data/release.js';
 import {
   summariseExecution,
   passRate,
@@ -18,10 +22,14 @@ import {
   filterDefects,
   requirementStatus,
   greeting,
+  testRunRows,
+  isOpen,
 } from './lib/metrics.js';
 import { toCsv, downloadCsv } from './lib/csv.js';
 
-const SCOPE_KEYS = ['sprint15', 'sprint14', 'release'];
+const RUN_ROWS = testRunRows(requirements, testCases);
+const ALERTS = defects.filter((d) => isOpen(d) && ['Critical', 'High'].includes(d.severity));
+const SEARCH_SOURCES = { defects, requirements, runs: RUN_ROWS };
 const VIEW_IDS = TABS.map((t) => t.id);
 const DEFAULT_FILTERS = { query: '', severity: 'All', status: 'All' };
 
@@ -34,6 +42,21 @@ export default function App() {
   const [tab, setTab] = useState(tabFromHash);
   const [scopeKey, setScopeKey] = useState('sprint15');
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [selectedDefect, setSelectedDefect] = useState(null);
+  const [focus, setFocus] = useState({ req: null, test: null });
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Ctrl/⌘ + K opens search from anywhere.
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen((v) => !v);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   // Keep the view in the URL hash so a view can be bookmarked or shared.
   useEffect(() => {
@@ -42,11 +65,45 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const navigate = (id, filterPatch) => {
+  const navigate = (id, filterPatch, { scroll = true } = {}) => {
     if (filterPatch) setFilters({ ...DEFAULT_FILTERS, status: 'Open', ...filterPatch });
+    if (id !== 'traceability') setFocus((f) => ({ ...f, req: null }));
+    if (id !== 'runs') setFocus((f) => ({ ...f, test: null }));
     window.location.hash = id === 'overview' ? '' : id;
     setTab(id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const openDefect = (id) => {
+    setFilters(DEFAULT_FILTERS);
+    setSelectedDefect(id);
+    navigate('defects', null, { scroll: false });
+  };
+  const openRequirement = (id) => {
+    navigate('traceability', null, { scroll: false });
+    setFocus({ req: id, test: null });
+  };
+  const openTest = (id) => {
+    navigate('runs');
+    setFocus({ req: null, test: id });
+  };
+  // The QA Agent reads the same data the dashboard shows, including the selected period.
+  const agentContext = useMemo(
+    () => ({ release, scopes, scopeKey, defects, requirements, runs: RUN_ROWS, people, agenda, manualGates }),
+    [scopeKey],
+  );
+  const onAgentAction = (a) => {
+    if (a.scope) setScopeKey(a.scope);
+    if (a.view === 'defects' && a.id) openDefect(a.id);
+    else if (a.view === 'traceability' && a.id) openRequirement(a.id);
+    else if (a.view === 'runs' && a.id) openTest(a.id);
+    else navigate(a.view);
+  };
+
+  const onSearchPick = (r) => {
+    if (r.type === 'defect') openDefect(r.id);
+    else if (r.type === 'requirement') openRequirement(r.id);
+    else openTest(r.id);
   };
 
   const scope = scopes[scopeKey];
@@ -68,6 +125,8 @@ export default function App() {
   const exportCsv = () => {
     if (tab === 'defects') {
       downloadCsv('prism-defects.csv', toCsv(filterDefects(defects, filters), ['id', 'title', 'severity', 'status', 'module', 'owner', 'ageDays', 'reqId']));
+    } else if (tab === 'runs') {
+      downloadCsv('prism-test-runs.csv', toCsv(RUN_ROWS, ['id', 'title', 'reqId', 'suite', 'tester', 'lastRun', 'durationSec', 'status']));
     } else if (tab === 'traceability') {
       const rows = requirements.map((r) => ({ ...r, status: requirementStatus(r), tests: r.tests.map((t) => `${t.id}:${t.status}`).join(' ') }));
       downloadCsv('prism-traceability.csv', toCsv(rows, ['id', 'title', 'priority', 'tests', 'status']));
@@ -78,6 +137,7 @@ export default function App() {
 
   const titles = {
     overview: `${greeting()}, Diogo`,
+    runs: 'Test runs',
     defects: 'Defects',
     traceability: 'Traceability',
   };
@@ -86,10 +146,10 @@ export default function App() {
     <>
       <Scene />
       <div className="relative z-10 min-h-full px-3.5 pt-4 pb-24 sm:px-7 md:pb-8">
-        <TopBar tab={tab} onTab={navigate} alerts={m.severity.Critical + m.severity.High} />
+        <TopBar tab={tab} onTab={navigate} alerts={ALERTS} onOpenDefect={openDefect} onOpenSearch={() => setSearchOpen(true)} />
 
         <div className="grid gap-6 md:grid-cols-[56px_1fr]">
-          <SideDock tab={tab} onTab={navigate} />
+          <SideDock tab={tab} onTab={navigate} onOpenSearch={() => setSearchOpen(true)} />
 
           <main className="min-w-0">
             <motion.section
@@ -109,23 +169,7 @@ export default function App() {
                 </p>
               </div>
               <div className="flex items-center gap-2.5">
-                {tab === 'overview' && (
-                  <div className="glass flex gap-0.5 rounded-full p-1" role="tablist" aria-label="Scope">
-                    {SCOPE_KEYS.map((k) => (
-                      <button
-                        key={k}
-                        role="tab"
-                        aria-selected={scopeKey === k}
-                        onClick={() => setScopeKey(k)}
-                        className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition sm:px-4 ${
-                          scopeKey === k ? 'bg-white text-[#1d150f] shadow-[0_4px_14px_rgba(0,0,0,0.25)]' : 'text-faint hover:text-ink'
-                        }`}
-                      >
-                        {scopes[k].label}
-                      </button>
-                    ))}
-                  </div>
-                )}
+                {tab === 'overview' && <ScopePicker value={scopeKey} onChange={setScopeKey} />}
                 <button onClick={exportCsv} className="glass flex items-center gap-2 rounded-full px-4 py-2.5 text-xs font-semibold transition hover:bg-white/15">
                   <LuDownload size={14} /> Export
                 </button>
@@ -135,13 +179,25 @@ export default function App() {
             <AnimatePresence mode="wait">
               <motion.div key={tab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
                 {tab === 'overview' && <Overview scopeKey={scopeKey} scope={scope} m={m} onNavigate={navigate} />}
-                {tab === 'defects' && <Defects defects={defects} filters={filters} onFilters={setFilters} />}
-                {tab === 'traceability' && <Traceability requirements={requirements} trace={m.trace} />}
+                {tab === 'runs' && <TestRuns key={focus.test ?? 'all'} rows={RUN_ROWS} highlightId={focus.test} onOpenRequirement={openRequirement} />}
+                {tab === 'defects' && (
+                  <Defects
+                    defects={defects}
+                    filters={filters}
+                    onFilters={setFilters}
+                    selectedId={selectedDefect}
+                    onSelect={setSelectedDefect}
+                    onOpenRequirement={openRequirement}
+                  />
+                )}
+                {tab === 'traceability' && <Traceability requirements={requirements} trace={m.trace} highlightId={focus.req} onOpenTest={openTest} />}
               </motion.div>
             </AnimatePresence>
           </main>
         </div>
       </div>
+      <QaAgent context={agentContext} onAction={onAgentAction} />
+      <SearchPalette open={searchOpen} onClose={() => setSearchOpen(false)} sources={SEARCH_SOURCES} onPick={onSearchPick} />
     </>
   );
 }

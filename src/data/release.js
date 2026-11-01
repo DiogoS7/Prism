@@ -18,55 +18,82 @@ export const people = {
   DS: { name: 'Diogo Santos', role: 'QA Consultant', hue: ['#f6b14a', '#e0702c'] },
 };
 
-// Test execution per scope. Each point is one day (sprints) or one sprint (release).
+// Test execution per scope: one-week sprints (one point per day) and the release to date
+// (one point per sprint). `previous` holds the figures for the period before, used for deltas.
+const day = (label, passed, failed, blocked) => ({ label, passed, failed, blocked });
+const week = (rows) => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d, i) => day(d, ...rows[i]));
+
 export const scopes = {
   sprint15: {
+    kind: 'sprint',
     label: 'Sprint 15',
-    caption: 'Test runs per day · this sprint',
+    range: '26 Oct – 1 Nov',
+    current: true,
+    caption: 'Test runs per day · Sprint 15',
     planned: 140,
-    comparedTo: 'last sprint',
-    series: [
-      { label: 'Mon', passed: 14, failed: 2, blocked: 1 },
-      { label: 'Tue', passed: 19, failed: 3, blocked: 0 },
-      { label: 'Wed', passed: 16, failed: 1, blocked: 2 },
-      { label: 'Thu', passed: 27, failed: 2, blocked: 0 },
-      { label: 'Fri', passed: 22, failed: 1, blocked: 1 },
-      { label: 'Sat', passed: 8, failed: 0, blocked: 0 },
-      { label: 'Sun', passed: 4, failed: 1, blocked: 0 },
-    ],
-    previous: { executed: 112, passRate: 88.4, openDefects: 17, coverage: 87 },
+    comparedTo: 'Sprint 14',
+    series: week([[14, 2, 1], [19, 3, 0], [16, 1, 2], [27, 2, 0], [22, 1, 1], [8, 0, 0], [4, 1, 0]]),
+    previous: { executed: 107, passRate: 82.2, openDefects: 17, coverage: 87 },
   },
   sprint14: {
+    kind: 'sprint',
     label: 'Sprint 14',
-    caption: 'Test runs per day · previous sprint',
+    range: '19 – 25 Oct',
+    caption: 'Test runs per day · Sprint 14',
     planned: 130,
-    comparedTo: 'sprint 13',
-    series: [
-      { label: 'Mon', passed: 12, failed: 3, blocked: 1 },
-      { label: 'Tue', passed: 15, failed: 4, blocked: 1 },
-      { label: 'Wed', passed: 18, failed: 2, blocked: 0 },
-      { label: 'Thu', passed: 14, failed: 3, blocked: 2 },
-      { label: 'Fri', passed: 21, failed: 2, blocked: 0 },
-      { label: 'Sat', passed: 6, failed: 1, blocked: 0 },
-      { label: 'Sun', passed: 2, failed: 0, blocked: 0 },
-    ],
-    previous: { executed: 96, passRate: 85.1, openDefects: 22, coverage: 79 },
+    comparedTo: 'Sprint 13',
+    series: week([[12, 3, 1], [15, 4, 1], [18, 2, 0], [14, 3, 2], [21, 2, 0], [6, 1, 0], [2, 0, 0]]),
+    previous: { executed: 96, passRate: 85.4, openDefects: 22, coverage: 79 },
+  },
+  sprint13: {
+    kind: 'sprint',
+    label: 'Sprint 13',
+    range: '12 – 18 Oct',
+    caption: 'Test runs per day · Sprint 13',
+    planned: 110,
+    comparedTo: 'Sprint 12',
+    series: week([[10, 2, 1], [13, 1, 0], [15, 2, 1], [17, 2, 1], [18, 2, 1], [6, 1, 0], [3, 0, 0]]),
+    previous: { executed: 83, passRate: 85.5, openDefects: 26, coverage: 72 },
+  },
+  sprint12: {
+    kind: 'sprint',
+    label: 'Sprint 12',
+    range: '5 – 11 Oct',
+    caption: 'Test runs per day · Sprint 12',
+    planned: 100,
+    comparedTo: 'Sprint 11',
+    series: week([[8, 2, 0], [11, 1, 1], [13, 2, 0], [15, 1, 1], [16, 2, 1], [5, 1, 0], [3, 0, 0]]),
+    previous: { executed: 73, passRate: 79.5, openDefects: 29, coverage: 64 },
+  },
+  sprint11: {
+    kind: 'sprint',
+    label: 'Sprint 11',
+    range: '28 Sep – 4 Oct',
+    caption: 'Test runs per day · Sprint 11',
+    planned: 90,
+    comparedTo: 'Sprint 10',
+    series: week([[6, 2, 1], [9, 2, 0], [11, 2, 1], [12, 2, 1], [13, 2, 1], [5, 1, 0], [2, 0, 0]]),
+    previous: { executed: 64, passRate: 76.6, openDefects: 31, coverage: 55 },
   },
   release: {
-    label: 'Release',
-    caption: 'Test runs per sprint · whole release',
+    kind: 'release',
+    label: 'Release R4.2',
+    range: '28 Sep – 1 Nov',
+    caption: 'Test runs per sprint · release to date',
     planned: 560,
     comparedTo: 'R4.1',
     series: [
-      { label: 'S11', passed: 58, failed: 11, blocked: 4 },
-      { label: 'S12', passed: 71, failed: 9, blocked: 3 },
-      { label: 'S13', passed: 82, failed: 10, blocked: 4 },
-      { label: 'S14', passed: 88, failed: 15, blocked: 4 },
-      { label: 'S15', passed: 110, failed: 10, blocked: 4 },
+      day('S11', 58, 11, 4),
+      day('S12', 71, 9, 3),
+      day('S13', 82, 10, 4),
+      day('S14', 88, 15, 4),
+      day('S15', 110, 10, 4),
     ],
     previous: { executed: 401, passRate: 86.2, openDefects: 31, coverage: 82 },
   },
 };
+
+export const SPRINT_KEYS = ['sprint15', 'sprint14', 'sprint13', 'sprint12', 'sprint11'];
 
 export const sparklines = {
   executed: [6, 9, 8, 12, 11, 15, 14, 19, 22],
@@ -127,3 +154,42 @@ export const activity = [
   { who: 'TM', text: ['Linked ', 'TC-251', ' to ', 'REQ-106'], when: '1h ago' },
   { who: 'IC', text: ['Raised ', 'DEF-1042', ' as Critical'], when: '2h ago' },
 ];
+
+// Details for every test case linked in `requirements`. The latest result lives on the
+// requirement link above, so each status is recorded in one place only.
+export const testCases = {
+  'TC-201': { title: 'Valid Portuguese IBAN is accepted', suite: 'Functional', tester: 'DS', lastRun: 'Today 09:12', durationSec: 42 },
+  'TC-202': { title: 'IBAN with bad checksum is rejected inline', suite: 'Functional', tester: 'DS', lastRun: 'Today 09:15', durationSec: 38 },
+  'TC-203': { title: 'Lowercase country code is normalised', suite: 'Functional', tester: 'DS', lastRun: 'Today 09:19', durationSec: 35 },
+  'TC-210': { title: 'SCA challenge shown before every instant payment', suite: 'Regression', tester: 'RA', lastRun: 'Today 14:31', durationSec: 64 },
+  'TC-211': { title: 'Payment cancelled when SCA fails three times', suite: 'Regression', tester: 'RA', lastRun: 'Today 14:33', durationSec: 71 },
+  'TC-220': { title: 'Matching beneficiary name shows green check', suite: 'Functional', tester: 'DS', lastRun: 'Yesterday 16:40', durationSec: 55 },
+  'TC-221': { title: 'Verification of Payee timeout falls back gracefully', suite: 'Functional', tester: 'DS', lastRun: 'Yesterday 16:52', durationSec: 0, note: 'Blocked: VoP stub down in SIT' },
+  'TC-230': { title: '€100,000.01 transfer is rejected', suite: 'Functional', tester: 'DS', lastRun: 'Today 10:05', durationSec: 47 },
+  'TC-231': { title: '€100,000.00 transfer is accepted', suite: 'Functional', tester: 'DS', lastRun: 'Today 10:08', durationSec: 44 },
+  'TC-240': { title: 'Customer can lower the daily limit in-app', suite: 'UAT', tester: 'IC', lastRun: 'Yesterday 11:20', durationSec: 180 },
+  'TC-241': { title: 'Daily limit resets at midnight CET', suite: 'Regression', tester: 'RA', lastRun: 'Today 00:05', durationSec: 95 },
+  'TC-250': { title: 'Double-tap on Confirm sends one payment', suite: 'Regression', tester: 'RA', lastRun: 'Today 14:36', durationSec: 58 },
+  'TC-251': { title: 'Retry after network drop does not duplicate', suite: 'Regression', tester: 'RA', lastRun: '—', durationSec: 0 },
+  'TC-260': { title: 'TIPS outage routes payment to standard SCT', suite: 'Regression', tester: 'RA', lastRun: 'Today 14:40', durationSec: 122 },
+  'TC-261': { title: 'Customer told payment will arrive next business day', suite: 'UAT', tester: 'IC', lastRun: 'Yesterday 11:45', durationSec: 150 },
+  'TC-270': { title: 'Push notification within 10 s of settlement', suite: 'Regression', tester: 'RA', lastRun: 'Today 14:44', durationSec: 33 },
+  'TC-280': { title: 'Reason AM04 shown in plain Portuguese', suite: 'Functional', tester: 'DS', lastRun: 'Today 11:02', durationSec: 29 },
+  'TC-281': { title: 'Reason AM04 shown in plain English', suite: 'Functional', tester: 'DS', lastRun: 'Today 11:04', durationSec: 27 },
+  'TC-290': { title: 'PDF receipt lists fees and timestamps', suite: 'UAT', tester: 'IC', lastRun: 'Yesterday 12:10', durationSec: 140 },
+  'TC-300': { title: 'Manual release logs the operator ID', suite: 'Functional', tester: 'DS', lastRun: 'Yesterday 15:30', durationSec: 61 },
+};
+
+export const messages = [
+  { from: 'MS', text: 'Can you share the go/no-go summary before the 16:00 prep?', when: '10m', unread: true },
+  { from: 'IC', text: 'UAT room is booked – four Payments Ops testers confirmed.', when: '1h', unread: true },
+  { from: 'AR', text: 'Fix for DEF-1042 is in the 14:00 build, ready for retest.', when: '2h', unread: false },
+];
+
+// Public links shown in the profile menu.
+export const profileLinks = {
+  github: 'https://github.com/DiogoS7',
+  repo: 'https://github.com/DiogoS7/Prism',
+  linkedin: 'https://www.linkedin.com/in/diogo-santos-b22801243',
+  portfolio: 'https://diogos7.github.io',
+};
