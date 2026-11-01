@@ -14,12 +14,19 @@ The data is a fictional release (**R4.2 · SEPA Instant Payments** for the made-
 
 ## Views
 
-| | |
-|---|---|
-| ![Overview](assets/screenshots/overview.png) | ![Defects](assets/screenshots/defects.png) |
-| **Overview**: KPIs, daily test execution (passed, failed and blocked), today's QA agenda, open defects by severity and the Go/No-Go verdict | **Defects**: searchable defect log with severity and open/closed filters, plus a detail panel tracing each defect back to its requirement |
-| ![Traceability](assets/screenshots/traceability.png) | <img src="assets/screenshots/mobile.png" alt="Mobile" width="260" /> |
-| **Traceability**: a requirements traceability matrix (RTM) showing every requirement, its linked test cases and their latest result, with a *gaps only* filter | **Mobile**: cards stack and the side dock becomes a floating bottom bar |
+![Overview: the whole release at a glance](assets/screenshots/overview.webp)
+
+![Defects: every defect traced to a requirement](assets/screenshots/defects.webp)
+
+![Traceability: requirement to test to result](assets/screenshots/traceability.webp)
+
+![Mobile: built for the phone too](assets/screenshots/mobile.webp)
+
+### Highlights
+
+| | | |
+|---|---|---|
+| ![Test execution chart](assets/screenshots/highlight-chart.webp) | ![Go / No-Go card](assets/screenshots/highlight-gonogo.webp) | ![Defect detail panel](assets/screenshots/highlight-defect.webp) |
 
 ## What it shows
 
