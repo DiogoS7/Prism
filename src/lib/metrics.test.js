@@ -96,6 +96,11 @@ describe('filterDefects', () => {
     expect(filterDefects(defects, { status: 'Closed' }).every((d) => d.status === 'Closed')).toBe(true);
   });
 
+  it('accepts a list of severities', () => {
+    const urgent = filterDefects(defects, { severity: ['Critical', 'High'], status: 'Open' });
+    expect(urgent.map((d) => d.id)).toEqual(['DEF-1042', 'DEF-1038', 'DEF-1035', 'DEF-1024']);
+  });
+
   it('returns everything with no filters', () => {
     expect(filterDefects(defects)).toHaveLength(defects.length);
   });

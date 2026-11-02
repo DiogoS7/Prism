@@ -19,7 +19,7 @@ export default function SideDock({ tab, onTab, onOpenSearch }) {
           aria-current={tab === id ? 'page' : undefined}
           onClick={() => onTab(id)}
           className={`dock-btn relative grid size-10 place-items-center rounded-full transition ${
-            tab === id ? 'bg-white text-[#1d150f]' : 'text-muted hover:bg-white/15 hover:text-ink'
+            tab === id ? 'bg-white text-[#14141c]' : 'text-muted hover:bg-white/15 hover:text-ink'
           }`}
         >
           <Icon size={17} />

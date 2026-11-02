@@ -72,11 +72,11 @@ export function traceability(requirements) {
   };
 }
 
-/** Free-text + severity + status filter used by the Defects view. */
+/** Free-text + severity + status filter used by the Defects view. `severity` is 'All', one severity or a list. */
 export function filterDefects(defects, { query = '', severity = 'All', status = 'All' } = {}) {
   const q = query.trim().toLowerCase();
   return defects.filter((d) => {
-    if (severity !== 'All' && d.severity !== severity) return false;
+    if (severity !== 'All' && !(Array.isArray(severity) ? severity.includes(d.severity) : d.severity === severity)) return false;
     if (status === 'Open' && !isOpen(d)) return false;
     if (status === 'Closed' && isOpen(d)) return false;
     if (!q) return true;

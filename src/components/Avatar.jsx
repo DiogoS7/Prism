@@ -8,7 +8,7 @@ export default function Avatar({ id, size = 22, online = false, ring = true, cla
     <span
       title={person ? `${person.name} · ${person.role}` : id}
       className={`relative inline-grid shrink-0 place-items-center rounded-full font-bold text-white ${
-        ring ? 'border-2 border-[#2a1d14]/90' : ''
+        ring ? 'shadow-[0_0_0_1.5px_rgba(255,255,255,0.28),0_2px_6px_rgba(0,0,0,0.25)]' : ''
       } ${className}`}
       style={{
         width: size,
@@ -19,7 +19,7 @@ export default function Avatar({ id, size = 22, online = false, ring = true, cla
     >
       {id}
       {online && (
-        <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full border-2 border-[#2a1d14] bg-pass" />
+        <span className="absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full bg-pass shadow-[0_0_0_1.5px_rgba(255,255,255,0.35),0_0_6px_rgba(74,222,128,0.8)]" />
       )}
     </span>
   );

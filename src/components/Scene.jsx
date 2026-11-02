@@ -1,23 +1,14 @@
 /**
- * Pure-CSS backdrop (styles in index.css) that gives the glass something to blur.
- * Swap it for a photo by giving `.scene` a background-image.
+ * Abstract backdrop (styles in index.css): deep slate with a purple glow on the left and an orange glow on the right (the logo colours) and a faint
+ * grid, giving the glass something to blur without competing with the data.
  */
 export default function Scene() {
   return (
     <div className="scene" aria-hidden="true">
-      <div className="sky" />
-      <div className="hills" />
-      <div className="mullions">
-        <i />
-        <i />
-        <i />
-        <i />
-        <i />
-      </div>
-      <div className="topfade" />
-      <div className="floor" />
-      <div className="lamp lamp-a" />
-      <div className="lamp lamp-b" />
+      <div className="glow glow-violet" />
+      <div className="glow glow-amber" />
+      <div className="glow glow-blue" />
+      <div className="grid-lines" />
       <div className="vignette" />
     </div>
   );

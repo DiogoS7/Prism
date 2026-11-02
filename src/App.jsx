@@ -33,6 +33,24 @@ const SEARCH_SOURCES = { defects, requirements, runs: RUN_ROWS };
 const VIEW_IDS = TABS.map((t) => t.id);
 const DEFAULT_FILTERS = { query: '', severity: 'All', status: 'All' };
 
+/** Client badge: a fictional bank monogram, the client name and the programme. */
+function ClientBadge() {
+  return (
+    <div className="glass inline-flex max-w-full items-center gap-2.5 rounded-full py-1 pr-4 pl-1">
+      <span
+        className="grid size-7 shrink-0 place-items-center rounded-full text-[13px] font-extrabold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]"
+        style={{ background: 'linear-gradient(135deg, #2dd4bf 0%, #0e7490 100%)' }}
+        aria-hidden="true"
+      >
+        M
+      </span>
+      <span className="text-sm font-semibold tracking-tight text-ink">{release.client}</span>
+      <span className="hidden h-4 w-px bg-white/20 sm:block" />
+      <span className="hidden truncate text-xs text-muted sm:inline">{release.programme}</span>
+    </div>
+  );
+}
+
 const tabFromHash = () => {
   const h = window.location.hash.slice(1);
   return VIEW_IDS.includes(h) ? h : 'overview';
@@ -78,6 +96,10 @@ export default function App() {
     setFilters(DEFAULT_FILTERS);
     setSelectedDefect(id);
     navigate('defects', null, { scroll: false });
+  };
+  const viewAlerts = () => {
+    setSelectedDefect(null);
+    navigate('defects', { severity: ['Critical', 'High'] });
   };
   const openRequirement = (id) => {
     navigate('traceability', null, { scroll: false });
@@ -146,7 +168,7 @@ export default function App() {
     <>
       <Scene />
       <div className="relative z-10 mx-auto min-h-full max-w-[1680px] px-3.5 pt-3 pb-24 sm:px-7 md:pb-8">
-        <TopBar tab={tab} onTab={navigate} alerts={ALERTS} onOpenDefect={openDefect} onOpenSearch={() => setSearchOpen(true)} />
+        <TopBar tab={tab} onTab={navigate} alerts={ALERTS} onOpenDefect={openDefect} onViewAlerts={viewAlerts} onOpenSearch={() => setSearchOpen(true)} />
 
         <div className="grid gap-6 md:grid-cols-[56px_1fr]">
           <SideDock tab={tab} onTab={navigate} onOpenSearch={() => setSearchOpen(true)} />
@@ -160,10 +182,8 @@ export default function App() {
               className="mb-5 flex flex-wrap items-end justify-between gap-4"
             >
               <div>
-                <p className="text-[11px] font-semibold tracking-[0.14em] text-faint uppercase">
-                  {release.client} · {release.programme}
-                </p>
-                <h1 className="mt-1 text-[22px] font-semibold tracking-tight sm:text-[26px]">{titles[tab]}</h1>
+                <ClientBadge />
+                <h1 className="mt-3 text-[22px] font-semibold tracking-tight sm:text-[26px]">{titles[tab]}</h1>
                 <p className="mt-1 text-[13px] text-muted">
                   Release {release.name} — go-live in {release.goLiveInDays} days
                 </p>

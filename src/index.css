@@ -20,7 +20,7 @@
     min-height: 100%;
   }
   body {
-    @apply bg-[#120e0b] font-sans text-ink antialiased;
+    @apply bg-[#09090d] font-sans text-ink antialiased;
     overflow-x: hidden;
   }
   button {
@@ -33,7 +33,7 @@
   position: relative;
   background:
     linear-gradient(160deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0.02) 100%),
-    rgb(26 18 12 / 0.46);
+    rgb(18 15 28 / 0.55);
   backdrop-filter: blur(26px) saturate(140%);
   -webkit-backdrop-filter: blur(26px) saturate(140%);
   border: 1px solid rgb(255 255 255 / 0.14);
@@ -48,78 +48,54 @@
   border: 1px solid rgb(255 255 255 / 0.12);
 }
 
-/* ---------- Background scene: a room at dusk with tall windows ---------- */
+/* ---------- Background: luminous purple-to-orange wash (the logo colours) ---------- */
 .scene {
   position: fixed;
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: radial-gradient(120% 70% at 50% 18%, #e7b98a 0%, #b77e57 22%, #5d3f2c 48%, #241a13 72%, #120e0b 100%);
+  background: linear-gradient(100deg, #1c1040 0%, #33206e 20%, #523586 40%, #7a4a6e 58%, #9c5a40 76%, #a86a38 90%, #82451f 100%);
 }
 .scene > * {
   position: absolute;
 }
-.scene .sky {
-  inset: 0 0 38% 0;
-  background: linear-gradient(180deg, #7d8fa3 0%, #c9a07c 45%, #e0b48a 62%, #8f6649 100%);
-  opacity: 0.6;
-}
-.scene .hills {
-  left: -5%;
-  right: -5%;
-  top: 46%;
-  height: 18%;
-  background:
-    radial-gradient(60% 100% at 30% 100%, #3b2c22 0%, transparent 70%),
-    radial-gradient(50% 90% at 75% 100%, #4a3628 0%, transparent 70%);
-  filter: blur(6px);
-}
-.scene .floor {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 40%;
-  background: linear-gradient(180deg, #3a2a1f 0%, #1a130e 100%);
-}
-.scene .mullions {
-  inset: 0 0 38% 0;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 4%;
-}
-.scene .mullions i {
-  width: 22px;
-  background: linear-gradient(90deg, #1b140f, #2b2018 50%, #1b140f);
-  box-shadow: 0 0 30px rgb(0 0 0 / 0.6);
-}
-.scene .topfade {
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 28%;
-  background: linear-gradient(180deg, rgb(18 14 11 / 0.55) 0%, rgb(18 14 11 / 0) 100%);
-}
-.scene .lamp {
-  width: 520px;
-  height: 520px;
+.scene .glow {
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(120px);
 }
-.scene .lamp-a {
-  left: -120px;
-  bottom: -140px;
-  background: #d98b4a;
-  opacity: 0.55;
+.scene .glow-violet {
+  width: 70vw;
+  height: 130vh;
+  left: -25vw;
+  top: -15vh;
+  background: #7c4dff;
+  opacity: 0.38;
 }
-.scene .lamp-b {
-  right: -160px;
-  top: 30%;
-  background: #7c9a6a;
-  opacity: 0.35;
+.scene .glow-amber {
+  width: 70vw;
+  height: 130vh;
+  right: -25vw;
+  top: -15vh;
+  background: #ff9a3c;
+  opacity: 0.3;
+}
+.scene .glow-blue {
+  /* warm "sunset" light where the two colours meet, like the first version */
+  width: 60vw;
+  height: 55vh;
+  left: 20vw;
+  top: -18vh;
+  background: #ffcf9e;
+  opacity: 0.16;
+}
+.scene .grid-lines {
+  display: none;
 }
 .scene .vignette {
   inset: 0;
-  background: radial-gradient(100% 80% at 50% 40%, transparent 40%, rgb(0 0 0 / 0.55) 100%);
+  background:
+    linear-gradient(180deg, rgb(12 8 20 / 0.25) 0%, rgb(12 8 20 / 0.25) 45%, rgb(12 8 20 / 0.6) 100%),
+    radial-gradient(120% 90% at 50% 30%, transparent 55%, rgb(10 6 16 / 0.35) 100%);
 }
 
 /* Dock tooltip */
@@ -133,7 +109,7 @@
   font-size: 11px;
   padding: 5px 10px;
   border-radius: 8px;
-  background: rgb(30 22 16 / 0.8);
+  background: rgb(22 22 30 / 0.85);
   backdrop-filter: blur(10px);
   border: 1px solid rgb(255 255 255 / 0.14);
   color: var(--color-ink);

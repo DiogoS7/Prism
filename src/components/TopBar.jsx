@@ -42,7 +42,7 @@ function IconButton({ label, onClick, active, children, className = '' }) {
 function Badge({ n }) {
   if (!n) return null;
   return (
-    <span className="absolute top-1.5 right-1.5 grid h-[15px] min-w-[15px] place-items-center rounded-full border-2 border-[#2a1d14]/80 bg-red-500 px-1 text-[9px] font-bold">
+    <span className="absolute -top-0.5 -right-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-gradient-to-b from-[#ff6b6b] to-[#e5383b] px-1 text-[9px] leading-none font-bold text-white shadow-[0_2px_8px_rgba(229,56,59,0.55),inset_0_1px_0_rgba(255,255,255,0.35)]">
       {n}
     </span>
   );
@@ -96,7 +96,7 @@ function MessagesMenu() {
   );
 }
 
-function NotificationsMenu({ alerts, onOpenDefect }) {
+function NotificationsMenu({ alerts, onOpenDefect, onViewAlerts }) {
   return (
     <Popover
       width={360}
@@ -109,7 +109,20 @@ function NotificationsMenu({ alerts, onOpenDefect }) {
     >
       {(close) => (
         <>
-          <PopoverHeader title="Needs attention" action={<span className="text-[11px] text-muted">Open Critical &amp; High</span>} />
+          <PopoverHeader
+            title="Needs attention"
+            action={
+              <button
+                onClick={() => {
+                  onViewAlerts();
+                  close();
+                }}
+                className="flex items-center gap-1 rounded-full px-2 py-1 text-[11px] text-muted transition hover:bg-white/10 hover:text-ink"
+              >
+                Open Critical &amp; High <LuChevronRight size={12} />
+              </button>
+            }
+          />
           <ul className="flex flex-col gap-1">
             {alerts.map((d) => (
               <li key={d.id}>
@@ -152,7 +165,7 @@ function ProfileMenu() {
       width={280}
       trigger={({ toggle }) => (
         <button onClick={toggle} aria-label="Profile" className="rounded-full transition hover:brightness-110">
-          <Avatar id="DS" size={40} online ring={false} className="shadow-[0_0_0_2px_rgba(255,255,255,0.25)]" />
+          <Avatar id="DS" size={40} online ring={false} className="shadow-[0_0_0_1.5px_rgba(255,255,255,0.3),0_4px_12px_rgba(0,0,0,0.25)]" />
         </button>
       )}
     >
@@ -178,10 +191,10 @@ function ProfileMenu() {
   );
 }
 
-export default function TopBar({ tab, onTab, alerts, onOpenDefect, onOpenSearch }) {
+export default function TopBar({ tab, onTab, alerts, onOpenDefect, onViewAlerts, onOpenSearch }) {
   return (
     <header className="sticky top-3 z-30 mb-7">
-      <div className="glass flex items-center justify-between gap-3 rounded-[22px] !bg-[#1d1510]/55 py-2 pr-2 pl-3 sm:pl-4">
+      <div className="glass flex items-center justify-between gap-3 rounded-[22px] !bg-[#16161f]/55 py-2 pr-2 pl-3 sm:pl-4">
       <button onClick={() => onTab('overview')} className="flex items-center gap-2.5" aria-label="Prism home">
         <svg viewBox="0 0 64 64" className="size-9" aria-hidden="true">
           <defs>
@@ -218,7 +231,7 @@ export default function TopBar({ tab, onTab, alerts, onOpenDefect, onOpenSearch 
 
       <div className="flex items-center gap-2 sm:gap-2.5">
         <MessagesMenu />
-        <NotificationsMenu alerts={alerts} onOpenDefect={onOpenDefect} />
+        <NotificationsMenu alerts={alerts} onOpenDefect={onOpenDefect} onViewAlerts={onViewAlerts} />
         <IconButton label="Search (Ctrl+K)" onClick={onOpenSearch} className="hidden md:grid">
           <LuSearch size={17} className="opacity-85" />
         </IconButton>

@@ -58,7 +58,7 @@ export default function TodayTimeline({ agenda, delay = 0, className = '' }) {
                 onChange={(e) => setDraft({ ...draft, time: e.target.value })}
                 className="flex-1 rounded-lg bg-white/[0.06] px-3 py-2 text-xs outline-none [color-scheme:dark]"
               />
-              <button type="submit" disabled={!draft.title.trim()} className="rounded-lg bg-white px-4 text-xs font-semibold text-[#1d150f] transition disabled:opacity-40">
+              <button type="submit" disabled={!draft.title.trim()} className="rounded-lg bg-white px-4 text-xs font-semibold text-[#14141c] transition disabled:opacity-40">
                 Add
               </button>
             </div>

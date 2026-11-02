@@ -19,7 +19,7 @@ function Chip({ active, onClick, children, colour }) {
     <button
       onClick={onClick}
       className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-        active ? 'border-white/30 bg-white text-[#1d150f]' : 'border-white/12 text-muted hover:text-ink'
+        active ? 'border-white/30 bg-white text-[#14141c]' : 'border-white/12 text-muted hover:text-ink'
       }`}
     >
       {colour && <i className="size-2 rounded-full" style={{ background: colour }} />}
@@ -75,7 +75,7 @@ export default function Defects({ defects, filters, onFilters, selectedId, onSel
                 key={s}
                 onClick={() => set({ status: s })}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition ${
-                  filters.status === s ? 'bg-white text-[#1d150f]' : 'text-faint hover:text-ink'
+                  filters.status === s ? 'bg-white text-[#14141c]' : 'text-faint hover:text-ink'
                 }`}
               >
                 {s}
@@ -89,7 +89,7 @@ export default function Defects({ defects, filters, onFilters, selectedId, onSel
             All severities
           </Chip>
           {SEVERITIES.map((s) => (
-            <Chip key={s} active={filters.severity === s} onClick={() => set({ severity: s })} colour={SEVERITY_COLOURS[s]}>
+            <Chip key={s} active={Array.isArray(filters.severity) ? filters.severity.includes(s) : filters.severity === s} onClick={() => set({ severity: s })} colour={SEVERITY_COLOURS[s]}>
               {s}
             </Chip>
           ))}

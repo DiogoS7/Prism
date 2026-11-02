@@ -15,7 +15,7 @@ function Option({ k, active, onPick }) {
         onClick={() => onPick(k)}
         className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition hover:bg-white/[0.07] ${active ? 'bg-white/10' : ''}`}
       >
-        <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${active ? 'bg-white text-[#1d150f]' : 'glass-inset text-muted'}`}>
+        <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${active ? 'bg-white text-[#14141c]' : 'glass-inset text-muted'}`}>
           <Icon size={15} />
         </span>
         <span className="min-w-0 flex-1">
@@ -48,7 +48,7 @@ export default function ScopePicker({ value, onChange }) {
           aria-expanded={open}
           className={`glass flex items-center gap-3 rounded-full py-1.5 pr-4 pl-1.5 text-left transition hover:bg-white/15 ${open ? '!bg-white/15 border-white/30' : ''}`}
         >
-          <span className="grid size-8 place-items-center rounded-full bg-white text-[#1d150f]">
+          <span className="grid size-8 place-items-center rounded-full bg-white text-[#14141c]">
             {s.kind === 'release' ? <LuRocket size={15} /> : <LuCalendarRange size={15} />}
           </span>
           <span className="leading-tight">

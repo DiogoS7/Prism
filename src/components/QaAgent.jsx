@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { LuX, LuSend, LuSparkles, LuKeyRound, LuArrowRight } from 'react-icons/lu';
+import { LuX, LuSend, LuKeyRound, LuArrowRight } from 'react-icons/lu';
 import { answerQuestion, contextForModel, SUGGESTIONS } from '../lib/assistant.js';
 import { askClaude, getApiKey, setApiKey, CLAUDE_MODEL } from '../lib/claude.js';
 
@@ -133,7 +133,7 @@ export default function QaAgent({ context, onAction }) {
             exit={{ opacity: 0, y: 16, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
             style={{ transformOrigin: 'bottom right' }}
-            className="glass absolute right-0 bottom-[74px] flex h-[min(600px,calc(100dvh-180px))] w-[min(400px,calc(100vw-28px))] flex-col overflow-hidden rounded-[26px] !bg-[#1b140f]/80 md:h-[min(600px,calc(100dvh-120px))]"
+            className="glass absolute right-0 bottom-[74px] flex h-[min(600px,calc(100dvh-180px))] w-[min(400px,calc(100vw-28px))] flex-col overflow-hidden rounded-[26px] !bg-[#15151d]/80 md:h-[min(600px,calc(100dvh-120px))]"
           >
             {/* Header */}
             <div className="flex items-center gap-2.5 p-3">
@@ -188,7 +188,7 @@ export default function QaAgent({ context, onAction }) {
                             autoComplete="off"
                             className="min-w-0 flex-1 rounded-lg bg-white/[0.07] px-3 py-2 text-xs text-ink outline-none placeholder:text-faint focus:bg-white/10"
                           />
-                          <button type="submit" disabled={!draftKey.trim()} className="rounded-lg bg-white px-3 text-xs font-semibold text-[#1d150f] disabled:opacity-40">
+                          <button type="submit" disabled={!draftKey.trim()} className="rounded-lg bg-white px-3 text-xs font-semibold text-[#14141c] disabled:opacity-40">
                             Connect
                           </button>
                         </div>
@@ -203,7 +203,7 @@ export default function QaAgent({ context, onAction }) {
             <div ref={log} className="scroll-glass flex flex-1 flex-col gap-2.5 overflow-y-auto px-3 py-2" aria-live="polite">
               {messages.map((m, i) =>
                 m.role === 'user' ? (
-                  <div key={i} className="max-w-[85%] self-end rounded-[16px] rounded-br-md bg-white px-3.5 py-2 text-xs leading-relaxed text-[#1d150f]">
+                  <div key={i} className="max-w-[85%] self-end rounded-[16px] rounded-br-md bg-white px-3.5 py-2 text-xs leading-relaxed text-[#14141c]">
                     {m.text}
                   </div>
                 ) : (
@@ -278,7 +278,7 @@ export default function QaAgent({ context, onAction }) {
                 type="submit"
                 disabled={!input.trim() || busy}
                 aria-label="Send"
-                className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#1d150f] transition disabled:opacity-40"
+                className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#14141c] transition disabled:opacity-40"
               >
                 <LuSend size={16} />
               </button>
@@ -294,18 +294,18 @@ export default function QaAgent({ context, onAction }) {
         aria-expanded={open}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}
-        className="relative grid size-14 place-items-center rounded-full border border-white/25 shadow-[0_14px_34px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.45)] md:size-[60px]"
+        className="relative grid size-14 place-items-center rounded-full border border-white/25 shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.35)] backdrop-blur-xl backdrop-saturate-150 md:size-[60px]"
         style={{
           background:
-            'radial-gradient(circle at 30% 25%, rgba(255,255,255,.45) 0%, rgba(255,255,255,0) 40%), linear-gradient(145deg, #6aa2ff 0%, #8b7bff 50%, #c0703a 100%)',
+            'radial-gradient(circle at 30% 22%, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 50%), linear-gradient(160deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 100%), rgba(40,34,56,.35)',
         }}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span key={open ? 'x' : 'spark'} initial={{ rotate: -40, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 40, opacity: 0 }} transition={{ duration: 0.15 }}>
-            {open ? <LuX size={24} className="text-white" /> : <LuSparkles size={24} className="text-white" />}
+            {open ? <LuX size={24} className="text-white" /> : <PrismMark size={30} />}
           </motion.span>
         </AnimatePresence>
-        {!open && userTurns === 0 && <span className="absolute -top-0.5 -right-0.5 size-3.5 rounded-full border-2 border-[#1b140f] bg-pass" />}
+        {!open && userTurns === 0 && <span className="absolute -top-0.5 -right-0.5 size-3.5 rounded-full bg-pass shadow-[0_0_0_1.5px_rgba(255,255,255,0.35),0_0_8px_rgba(74,222,128,0.8)]" />}
       </motion.button>
     </div>
   );

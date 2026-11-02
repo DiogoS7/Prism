@@ -67,7 +67,7 @@ export default function TestRuns({ rows, highlightId, onOpenRequirement }) {
               <button
                 key={s}
                 onClick={() => set({ suite: s })}
-                className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${filters.suite === s ? 'bg-white text-[#1d150f]' : 'text-faint hover:text-ink'}`}
+                className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${filters.suite === s ? 'bg-white text-[#14141c]' : 'text-faint hover:text-ink'}`}
               >
                 {s}
               </button>
