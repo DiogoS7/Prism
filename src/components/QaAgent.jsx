@@ -231,6 +231,20 @@ export default function QaAgent({ context, onAction }) {
                   </div>
                 ),
               )}
+              {userTurns < 2 && !busy && (
+                <div className="mt-1 flex flex-col items-start gap-1.5">
+                  <p className="px-1 text-[10px] font-semibold tracking-[0.14em] text-faint uppercase">Try asking</p>
+                  {SUGGESTIONS.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => ask(s)}
+                      className="rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-left text-[11px] text-muted transition hover:bg-white/12 hover:text-ink"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
               {busy && (
                 <div className="glass-inset flex gap-1 self-start rounded-[16px] rounded-bl-md px-3.5 py-3" aria-label="Thinking">
                   {[0, 1, 2].map((d) => (
@@ -244,21 +258,6 @@ export default function QaAgent({ context, onAction }) {
                 </div>
               )}
             </div>
-
-            {/* Suggestions (until the conversation gets going) */}
-            {userTurns < 2 && (
-              <div className="flex gap-1.5 overflow-x-auto px-3 pt-1 pb-2 [scrollbar-width:none]">
-                {SUGGESTIONS.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => ask(s)}
-                    className="shrink-0 rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[11px] whitespace-nowrap text-muted transition hover:bg-white/12 hover:text-ink"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            )}
 
             {/* Input */}
             <form

@@ -32,7 +32,7 @@ function IconButton({ label, onClick, active, children, className = '' }) {
       title={label}
       onClick={onClick}
       aria-expanded={active}
-      className={`glass relative grid size-10 place-items-center rounded-full transition hover:bg-white/15 ${active ? '!bg-white/20 border-white/30' : ''} ${className}`}
+      className={`relative grid size-10 place-items-center rounded-full border transition hover:bg-white/10 ${active ? 'border-white/25 bg-white/15' : 'border-white/10 bg-white/[0.04]'} ${className}`}
     >
       {children}
     </button>
@@ -180,7 +180,8 @@ function ProfileMenu() {
 
 export default function TopBar({ tab, onTab, alerts, onOpenDefect, onOpenSearch }) {
   return (
-    <header className="relative z-30 mb-6 flex items-center justify-between gap-3">
+    <header className="sticky top-3 z-30 mb-7">
+      <div className="glass flex items-center justify-between gap-3 rounded-[22px] !bg-[#1d1510]/55 py-2 pr-2 pl-3 sm:pl-4">
       <button onClick={() => onTab('overview')} className="flex items-center gap-2.5" aria-label="Prism home">
         <svg viewBox="0 0 64 64" className="size-9" aria-hidden="true">
           <defs>
@@ -193,7 +194,7 @@ export default function TopBar({ tab, onTab, alerts, onOpenDefect, onOpenSearch 
           <path d="M32 10 54 50H10Z" fill="none" stroke="url(#logo)" strokeWidth="5" strokeLinejoin="round" />
           <path d="M20 38h24" stroke="url(#logo)" strokeWidth="4" strokeLinecap="round" opacity=".8" />
         </svg>
-        <span className="hidden text-lg font-bold tracking-tight xl:inline">Prism</span>
+        <span className="hidden text-lg font-bold tracking-tight sm:inline">Prism</span>
       </button>
 
       <nav className="flex gap-1.5 sm:gap-2" aria-label="Views">
@@ -204,8 +205,8 @@ export default function TopBar({ tab, onTab, alerts, onOpenDefect, onOpenSearch 
               key={id}
               onClick={() => onTab(id)}
               aria-current={active ? 'page' : undefined}
-              className={`glass flex items-center gap-2 rounded-full px-3 py-2.5 text-[13px] font-medium transition lg:px-[18px] ${
-                active ? 'border-white/30 !bg-white/15 text-ink' : 'text-muted hover:text-ink'
+              className={`flex items-center gap-2 rounded-full border px-3 py-2.5 text-[13px] font-medium transition lg:px-[18px] ${
+                active ? 'border-white/25 bg-white/15 text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]' : 'border-transparent text-muted hover:bg-white/[0.07] hover:text-ink'
               }`}
             >
               <Icon size={15} />
@@ -222,6 +223,7 @@ export default function TopBar({ tab, onTab, alerts, onOpenDefect, onOpenSearch 
           <LuSearch size={17} className="opacity-85" />
         </IconButton>
         <ProfileMenu />
+      </div>
       </div>
     </header>
   );

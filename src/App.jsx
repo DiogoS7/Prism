@@ -145,7 +145,7 @@ export default function App() {
   return (
     <>
       <Scene />
-      <div className="relative z-10 min-h-full px-3.5 pt-4 pb-24 sm:px-7 md:pb-8">
+      <div className="relative z-10 mx-auto min-h-full max-w-[1680px] px-3.5 pt-3 pb-24 sm:px-7 md:pb-8">
         <TopBar tab={tab} onTab={navigate} alerts={ALERTS} onOpenDefect={openDefect} onOpenSearch={() => setSearchOpen(true)} />
 
         <div className="grid gap-6 md:grid-cols-[56px_1fr]">

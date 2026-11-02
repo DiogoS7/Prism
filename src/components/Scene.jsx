@@ -14,7 +14,7 @@ export default function Scene() {
         <i />
         <i />
       </div>
-      <div className="beam" />
+      <div className="topfade" />
       <div className="floor" />
       <div className="lamp lamp-a" />
       <div className="lamp lamp-b" />

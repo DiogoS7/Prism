@@ -35,7 +35,7 @@ export default function Popover({ trigger, children, width = 320, align = 'right
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.18 }}
             style={{ width: `min(${width}px, calc(100vw - 28px))` }}
-            className={`glass absolute top-12 z-50 rounded-[20px] p-2 !bg-[#1d1510]/85 max-md:!fixed max-md:!inset-x-3.5 max-md:!top-[68px] max-md:!w-auto ${align === 'right' ? 'right-0' : 'left-0'}`}
+            className={`glass absolute top-[52px] z-50 rounded-[20px] p-2 !bg-[#1d1510] max-md:!fixed max-md:!inset-x-0 max-md:!top-[62px] max-md:!w-auto ${align === 'right' ? 'right-0' : 'left-0'}`}
           >
             {typeof children === 'function' ? children(close) : children}
           </motion.div>

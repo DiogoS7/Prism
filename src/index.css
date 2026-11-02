@@ -92,12 +92,12 @@
   background: linear-gradient(90deg, #1b140f, #2b2018 50%, #1b140f);
   box-shadow: 0 0 30px rgb(0 0 0 / 0.6);
 }
-.scene .beam {
+.scene .topfade {
   left: 0;
   right: 0;
   top: 0;
-  height: 5%;
-  background: #1b140f;
+  height: 28%;
+  background: linear-gradient(180deg, rgb(18 14 11 / 0.55) 0%, rgb(18 14 11 / 0) 100%);
 }
 .scene .lamp {
   width: 520px;
