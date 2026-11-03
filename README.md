@@ -45,7 +45,7 @@ The data is a fictional release (**R4.2 · SEPA Instant Payments** for the made-
 
 ## QA Agent
 
-The QualityView button in the bottom-right corner opens the **QualityView QA Agent**, a chat assistant for the release.
+The chat button in the bottom-right corner opens the **QA Agent**, a chat assistant for the release.
 
 - **Built-in mode (default).** It answers from the dashboard's own data: go/no-go readiness and blockers, any `DEF-`, `REQ-` or `TC-` id, sprint or release figures, coverage gaps, who owns what, today's agenda, client and release details, and QA terms such as RTM, blocked, UAT, SCA and VoP. Answers include buttons that open the defect, requirement, test or period they mention. No network calls, no cost, and it works on GitHub Pages. The logic is in `src/lib/assistant.js` and is covered by unit tests.
 - **Claude mode (optional).** Click the key icon and paste an Anthropic API key, and Claude (`claude-haiku-4-5`) answers open questions, using a snapshot of the release data as context. QualityView has no server, so the key is never in the code or the build. It's kept in that browser tab's `sessionStorage` only and sent straight to Anthropic. If Claude can't be reached, the agent falls back to its built-in answers.

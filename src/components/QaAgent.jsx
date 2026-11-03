@@ -3,11 +3,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { LuX, LuSend, LuKeyRound, LuArrowRight } from 'react-icons/lu';
 import { answerQuestion, contextForModel, SUGGESTIONS } from '../lib/assistant.js';
 import { askClaude, getApiKey, setApiKey, CLAUDE_MODEL } from '../lib/claude.js';
-import LogoMark from './LogoMark.jsx';
+import { AgentIcon } from './LogoMark.jsx';
 
 const WELCOME = {
   role: 'assistant',
-  text: "Hi! I'm the QualityView QA Agent. Ask me about go-live readiness, any defect, requirement or test, a sprint's results, the team or a QA term.",
+  text: "Hi! I'm the QA Agent. Ask me about go-live readiness, any defect, requirement or test, a sprint's results, the team or a QA term.",
   actions: [],
 };
 
@@ -112,7 +112,7 @@ export default function QaAgent({ context, onAction }) {
         {open && (
           <motion.section
             role="dialog"
-            aria-label="QualityView QA Agent"
+            aria-label="QA Agent"
             initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.97 }}
@@ -124,10 +124,10 @@ export default function QaAgent({ context, onAction }) {
             <div className="flex items-center gap-2.5 p-3">
               <div className="glass-inset flex min-w-0 flex-1 items-center gap-3 rounded-[18px] px-3 py-2.5">
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/[0.08]">
-                  <LogoMark size={26} />
+                  <AgentIcon size={22} className="text-white" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold">QualityView QA Agent</p>
+                  <p className="text-sm font-semibold">QA Agent</p>
                   <p className="flex items-center gap-1.5 truncate text-[11px] text-muted">
                     <i className={`size-1.5 rounded-full ${apiKey ? 'bg-violet shadow-[0_0_6px_#8b7bff]' : 'bg-pass shadow-[0_0_6px_#4ade80]'}`} />
                     {apiKey ? `Claude · ${CLAUDE_MODEL}` : 'Built-in · uses release data'}
@@ -287,7 +287,7 @@ export default function QaAgent({ context, onAction }) {
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span key={open ? 'x' : 'spark'} initial={{ rotate: -40, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 40, opacity: 0 }} transition={{ duration: 0.15 }}>
-            {open ? <LuX size={24} className="text-white" /> : <LogoMark size={32} />}
+            {open ? <LuX size={24} className="text-white" /> : <AgentIcon size={26} className="text-white" />}
           </motion.span>
         </AnimatePresence>
         {!open && userTurns === 0 && <span className="absolute -top-0.5 -right-0.5 size-3.5 rounded-full bg-pass shadow-[0_0_0_1.5px_rgba(255,255,255,0.35),0_0_8px_rgba(74,222,128,0.8)]" />}

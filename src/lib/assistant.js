@@ -169,7 +169,7 @@ export function answerQuestion(question, ctx) {
   if (/^(hi|hello|hey|ola|bom dia|boa tarde)\b/.test(q) || has(q, 'what can you do', 'help me', 'how do you work')) {
     return {
       text:
-        "I'm the QualityView QA Agent. I answer from this release's live data:\n" +
+        "I'm the QA Agent. I answer from this release's live data:\n" +
         list(['Go/no-go readiness and what is blocking it', 'Any defect, requirement or test by id', 'Sprint and release execution figures', 'Coverage gaps, owners, the agenda and QA terms']),
       actions: [],
     };
