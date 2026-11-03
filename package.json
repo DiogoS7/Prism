@@ -1,5 +1,5 @@
 {
-  "name": "prism",
+  "name": "qualityview",
   "private": true,
   "version": "1.0.0",
   "description": "Glassmorphism release-quality command centre: test execution, defects, requirement traceability and go/no-go readiness.",

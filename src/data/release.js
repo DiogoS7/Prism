@@ -1,4 +1,4 @@
-// All data in Prism is synthetic. "Meridian Bank" and every person below are fictional.
+// All data in QualityView is synthetic. "Meridian Bank" and every person below are fictional.
 // The shape mirrors what a QA lead tracks on a real banking release: execution,
 // defects, requirement traceability and the go/no-go gates agreed with the client.
 
@@ -189,7 +189,7 @@ export const messages = [
 // Public links shown in the profile menu.
 export const profileLinks = {
   github: 'https://github.com/DiogoS7',
-  repo: 'https://github.com/DiogoS7/Prism',
+  repo: 'https://github.com/DiogoS7/QualityView',
   linkedin: 'https://www.linkedin.com/in/diogo-santos-b22801243',
   portfolio: 'https://diogos7.github.io',
 };

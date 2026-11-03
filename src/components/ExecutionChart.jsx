@@ -77,7 +77,7 @@ export default function ExecutionChart({ scopeKey, scope, rateChange, delay = 0,
                 </motion.div>
                 <div
                   role="tooltip"
-                  className="pointer-events-none absolute z-10 translate-y-1 rounded-lg border border-white/15 bg-[#101017]/85 px-2.5 py-1.5 text-[11px] whitespace-nowrap opacity-0 backdrop-blur transition group-hover:translate-y-0 group-hover:opacity-100"
+                  className="pointer-events-none absolute z-10 translate-y-1 rounded-lg border border-white/15 bg-[#0d1220]/85 px-2.5 py-1.5 text-[11px] whitespace-nowrap opacity-0 backdrop-blur transition group-hover:translate-y-0 group-hover:opacity-100"
                   style={{ bottom: `calc(${Math.max(2, (total / max) * 100)}% + 8px)` }}
                 >
                   <b className="font-semibold">{total} runs</b>

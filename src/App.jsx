@@ -146,14 +146,14 @@ export default function App() {
 
   const exportCsv = () => {
     if (tab === 'defects') {
-      downloadCsv('prism-defects.csv', toCsv(filterDefects(defects, filters), ['id', 'title', 'severity', 'status', 'module', 'owner', 'ageDays', 'reqId']));
+      downloadCsv('qualityview-defects.csv', toCsv(filterDefects(defects, filters), ['id', 'title', 'severity', 'status', 'module', 'owner', 'ageDays', 'reqId']));
     } else if (tab === 'runs') {
-      downloadCsv('prism-test-runs.csv', toCsv(RUN_ROWS, ['id', 'title', 'reqId', 'suite', 'tester', 'lastRun', 'durationSec', 'status']));
+      downloadCsv('qualityview-test-runs.csv', toCsv(RUN_ROWS, ['id', 'title', 'reqId', 'suite', 'tester', 'lastRun', 'durationSec', 'status']));
     } else if (tab === 'traceability') {
       const rows = requirements.map((r) => ({ ...r, status: requirementStatus(r), tests: r.tests.map((t) => `${t.id}:${t.status}`).join(' ') }));
-      downloadCsv('prism-traceability.csv', toCsv(rows, ['id', 'title', 'priority', 'tests', 'status']));
+      downloadCsv('qualityview-traceability.csv', toCsv(rows, ['id', 'title', 'priority', 'tests', 'status']));
     } else {
-      downloadCsv(`prism-execution-${scopeKey}.csv`, toCsv(scope.series, ['label', 'passed', 'failed', 'blocked']));
+      downloadCsv(`qualityview-execution-${scopeKey}.csv`, toCsv(scope.series, ['label', 'passed', 'failed', 'blocked']));
     }
   };
 

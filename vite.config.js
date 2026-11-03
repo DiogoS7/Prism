@@ -2,9 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
-// GitHub Pages serves the app from /Prism/; local dev serves it from /.
+// Relative base so the build works on GitHub Pages whatever the repository is called.
 export default defineConfig({
-  base: process.env.GITHUB_PAGES ? '/Prism/' : '/',
+  base: './',
   plugins: [react(), tailwindcss()],
   test: {
     environment: 'node',

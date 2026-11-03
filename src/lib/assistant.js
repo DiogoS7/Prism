@@ -1,4 +1,4 @@
-// Prism QA Agent – built-in answer engine.
+// QualityView QA Agent – built-in answer engine.
 // Answers questions about the release from the dashboard's own data, with no network calls,
 // so it works on a static site. Each answer is { text, actions } where actions are
 // [{ label, view, id? }] buttons that take the user to the right place.
@@ -169,7 +169,7 @@ export function answerQuestion(question, ctx) {
   if (/^(hi|hello|hey|ola|bom dia|boa tarde)\b/.test(q) || has(q, 'what can you do', 'help me', 'how do you work')) {
     return {
       text:
-        "I'm the Prism QA Agent. I answer from this release's live data:\n" +
+        "I'm the QualityView QA Agent. I answer from this release's live data:\n" +
         list(['Go/no-go readiness and what is blocking it', 'Any defect, requirement or test by id', 'Sprint and release execution figures', 'Coverage gaps, owners, the agenda and QA terms']),
       actions: [],
     };
@@ -292,7 +292,7 @@ export function answerQuestion(question, ctx) {
     return {
       text:
         `**${release.client}** – ${release.programme}.\nRelease **${release.name}** goes live in ${release.goLiveInDays} days. It lets customers send SEPA Instant payments in under 10 seconds, with IBAN validation, Verification of Payee, SCA, a €100k scheme limit, duplicate protection and fallback to standard SEPA when TIPS is down.\n\n` +
-        `${requirements.length} requirements, ${runs.length} test cases, ${defects.length} defects logged (${defects.filter(isOpen).length} open). All data in Prism is fictional.`,
+        `${requirements.length} requirements, ${runs.length} test cases, ${defects.length} defects logged (${defects.filter(isOpen).length} open). All data in QualityView is fictional.`,
       actions: [],
     };
   }

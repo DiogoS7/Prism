@@ -3,10 +3,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { LuX, LuSend, LuKeyRound, LuArrowRight } from 'react-icons/lu';
 import { answerQuestion, contextForModel, SUGGESTIONS } from '../lib/assistant.js';
 import { askClaude, getApiKey, setApiKey, CLAUDE_MODEL } from '../lib/claude.js';
+import LogoMark from './LogoMark.jsx';
 
 const WELCOME = {
   role: 'assistant',
-  text: "Hi! I'm the Prism QA Agent. Ask me about go-live readiness, any defect, requirement or test, a sprint's results, the team or a QA term.",
+  text: "Hi! I'm the QualityView QA Agent. Ask me about go-live readiness, any defect, requirement or test, a sprint's results, the team or a QA term.",
   actions: [],
 };
 
@@ -38,22 +39,6 @@ function RichText({ text }) {
       <span key={i} className="block h-2" />
     );
   });
-}
-
-function PrismMark({ size = 22 }) {
-  return (
-    <svg viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
-      <defs>
-        <linearGradient id="agent-mark" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#6aa2ff" />
-          <stop offset=".5" stopColor="#8b7bff" />
-          <stop offset="1" stopColor="#f5a524" />
-        </linearGradient>
-      </defs>
-      <path d="M32 10 54 50H10Z" fill="none" stroke="url(#agent-mark)" strokeWidth="6" strokeLinejoin="round" />
-      <path d="M20 38h24" stroke="url(#agent-mark)" strokeWidth="5" strokeLinecap="round" />
-    </svg>
-  );
 }
 
 /** Floating QA assistant, bottom-right. Built-in answers by default; Claude when a key is connected. */
@@ -127,22 +112,22 @@ export default function QaAgent({ context, onAction }) {
         {open && (
           <motion.section
             role="dialog"
-            aria-label="Prism QA Agent"
+            aria-label="QualityView QA Agent"
             initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
             style={{ transformOrigin: 'bottom right' }}
-            className="glass absolute right-0 bottom-[74px] flex h-[min(600px,calc(100dvh-180px))] w-[min(400px,calc(100vw-28px))] flex-col overflow-hidden rounded-[26px] !bg-[#15151d]/80 md:h-[min(600px,calc(100dvh-120px))]"
+            className="glass absolute right-0 bottom-[74px] flex h-[min(600px,calc(100dvh-180px))] w-[min(400px,calc(100vw-28px))] flex-col overflow-hidden rounded-[26px] !bg-[#121828]/80 md:h-[min(600px,calc(100dvh-120px))]"
           >
             {/* Header */}
             <div className="flex items-center gap-2.5 p-3">
               <div className="glass-inset flex min-w-0 flex-1 items-center gap-3 rounded-[18px] px-3 py-2.5">
                 <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/[0.08]">
-                  <PrismMark />
+                  <LogoMark size={26} />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold">Prism QA Agent</p>
+                  <p className="text-sm font-semibold">QualityView QA Agent</p>
                   <p className="flex items-center gap-1.5 truncate text-[11px] text-muted">
                     <i className={`size-1.5 rounded-full ${apiKey ? 'bg-violet shadow-[0_0_6px_#8b7bff]' : 'bg-pass shadow-[0_0_6px_#4ade80]'}`} />
                     {apiKey ? `Claude · ${CLAUDE_MODEL}` : 'Built-in · uses release data'}
@@ -188,7 +173,7 @@ export default function QaAgent({ context, onAction }) {
                             autoComplete="off"
                             className="min-w-0 flex-1 rounded-lg bg-white/[0.07] px-3 py-2 text-xs text-ink outline-none placeholder:text-faint focus:bg-white/10"
                           />
-                          <button type="submit" disabled={!draftKey.trim()} className="rounded-lg bg-white px-3 text-xs font-semibold text-[#14141c] disabled:opacity-40">
+                          <button type="submit" disabled={!draftKey.trim()} className="rounded-lg bg-white px-3 text-xs font-semibold text-[#0f1524] disabled:opacity-40">
                             Connect
                           </button>
                         </div>
@@ -203,7 +188,7 @@ export default function QaAgent({ context, onAction }) {
             <div ref={log} className="scroll-glass flex flex-1 flex-col gap-2.5 overflow-y-auto px-3 py-2" aria-live="polite">
               {messages.map((m, i) =>
                 m.role === 'user' ? (
-                  <div key={i} className="max-w-[85%] self-end rounded-[16px] rounded-br-md bg-white px-3.5 py-2 text-xs leading-relaxed text-[#14141c]">
+                  <div key={i} className="max-w-[85%] self-end rounded-[16px] rounded-br-md bg-white px-3.5 py-2 text-xs leading-relaxed text-[#0f1524]">
                     {m.text}
                   </div>
                 ) : (
@@ -278,7 +263,7 @@ export default function QaAgent({ context, onAction }) {
                 type="submit"
                 disabled={!input.trim() || busy}
                 aria-label="Send"
-                className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#14141c] transition disabled:opacity-40"
+                className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0f1524] transition disabled:opacity-40"
               >
                 <LuSend size={16} />
               </button>
@@ -297,12 +282,12 @@ export default function QaAgent({ context, onAction }) {
         className="relative grid size-14 place-items-center rounded-full border border-white/25 shadow-[0_14px_34px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.35)] backdrop-blur-xl backdrop-saturate-150 md:size-[60px]"
         style={{
           background:
-            'radial-gradient(circle at 30% 22%, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 50%), linear-gradient(160deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 100%), rgba(40,34,56,.35)',
+            'radial-gradient(circle at 30% 22%, rgba(255,255,255,.28) 0%, rgba(255,255,255,0) 50%), linear-gradient(160deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 100%), rgba(30,42,70,.35)',
         }}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span key={open ? 'x' : 'spark'} initial={{ rotate: -40, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 40, opacity: 0 }} transition={{ duration: 0.15 }}>
-            {open ? <LuX size={24} className="text-white" /> : <PrismMark size={30} />}
+            {open ? <LuX size={24} className="text-white" /> : <LogoMark size={32} />}
           </motion.span>
         </AnimatePresence>
         {!open && userTurns === 0 && <span className="absolute -top-0.5 -right-0.5 size-3.5 rounded-full bg-pass shadow-[0_0_0_1.5px_rgba(255,255,255,0.35),0_0_8px_rgba(74,222,128,0.8)]" />}

@@ -61,7 +61,7 @@ export default function SearchPalette({ open, onClose, sources, onPick }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="glass w-full max-w-xl rounded-[22px] !bg-[#16161f]/85 p-2"
+            className="glass w-full max-w-xl rounded-[22px] !bg-[#131a2b]/85 p-2"
           >
             <label className="flex items-center gap-3 px-3 py-2.5">
               <LuSearch size={18} className="text-muted" />

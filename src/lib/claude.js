@@ -1,9 +1,9 @@
 // Optional: let the QA Agent answer with Claude.
-// Prism is a static site, so there is no server to hold a secret. The visitor pastes their
+// QualityView is a static site, so there is no server to hold a secret. The visitor pastes their
 // own Anthropic API key; it is kept in sessionStorage for this tab only and sent straight to
 // api.anthropic.com. It is never part of the code, the build or the repository.
 
-const KEY_STORAGE = 'prism.anthropicKey';
+const KEY_STORAGE = 'qualityview.anthropicKey';
 export const CLAUDE_MODEL = 'claude-haiku-4-5';
 
 export function getApiKey() {
@@ -23,7 +23,7 @@ export function setApiKey(key) {
   }
 }
 
-const SYSTEM = (context) => `You are the Prism QA Agent, a senior QA consultant embedded in a release-quality dashboard.
+const SYSTEM = (context) => `You are the QualityView QA Agent, a senior QA consultant embedded in a release-quality dashboard.
 Answer questions about the release below: readiness, defects, requirements, test runs, people and QA practice.
 Rules:
 - Use only the data below for facts about this release. If something isn't in it, say so.

@@ -1,16 +1,16 @@
-![Prism banner](assets/banner.png)
+![QualityView banner](assets/banner.png)
 
-# Prism
+# QualityView
 
-[![CI](https://github.com/DiogoS7/Prism/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoS7/Prism/actions/workflows/ci.yml)
+[![CI](https://github.com/DiogoS7/QualityView/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoS7/QualityView/actions/workflows/ci.yml)
 
 *Release quality in one glass pane.*
 
-Prism is a release-quality command centre for a QA lead or delivery consultant. It brings together the four things a client asks about before go-live: how much has been tested, what is still broken, whether every requirement is covered, and whether the release meets the go/no-go criteria.
+QualityView is a release-quality command centre for a QA lead or delivery consultant. It brings together the four things a client asks about before go-live: how much has been tested, what is still broken, whether every requirement is covered, and whether the release meets the go/no-go criteria.
 
 The data is a fictional release (**R4.2 · SEPA Instant Payments** for the made-up *Meridian Bank*). It is modelled on the work I do as a QA consultant in the banking sector. Every person, defect and requirement is synthetic.
 
-**Live demo:** https://diogos7.github.io/Prism/
+**Live demo:** https://diogos7.github.io/QualityView/
 
 ## Views
 
@@ -45,10 +45,10 @@ The data is a fictional release (**R4.2 · SEPA Instant Payments** for the made-
 
 ## QA Agent
 
-The Prism button in the bottom-right corner opens the **Prism QA Agent**, a chat assistant for the release.
+The QualityView button in the bottom-right corner opens the **QualityView QA Agent**, a chat assistant for the release.
 
 - **Built-in mode (default).** It answers from the dashboard's own data: go/no-go readiness and blockers, any `DEF-`, `REQ-` or `TC-` id, sprint or release figures, coverage gaps, who owns what, today's agenda, client and release details, and QA terms such as RTM, blocked, UAT, SCA and VoP. Answers include buttons that open the defect, requirement, test or period they mention. No network calls, no cost, and it works on GitHub Pages. The logic is in `src/lib/assistant.js` and is covered by unit tests.
-- **Claude mode (optional).** Click the key icon and paste an Anthropic API key, and Claude (`claude-haiku-4-5`) answers open questions, using a snapshot of the release data as context. Prism has no server, so the key is never in the code or the build. It's kept in that browser tab's `sessionStorage` only and sent straight to Anthropic. If Claude can't be reached, the agent falls back to its built-in answers.
+- **Claude mode (optional).** Click the key icon and paste an Anthropic API key, and Claude (`claude-haiku-4-5`) answers open questions, using a snapshot of the release data as context. QualityView has no server, so the key is never in the code or the build. It's kept in that browser tab's `sessionStorage` only and sent straight to Anthropic. If Claude can't be reached, the agent falls back to its built-in answers.
 
 ## Tech stack
 
@@ -60,14 +60,15 @@ The Prism button in the bottom-right corner opens the **Prism QA Agent**, a chat
 | Tests | Vitest unit tests for the metrics, search, export and QA Agent logic (`src/lib/*.test.js`) |
 | CI/CD | GitHub Actions runs the tests and the build on every push and PR, then deploys `main` to GitHub Pages |
 
-The glass look is made of a frosted card (`backdrop-filter: blur() saturate()`), a soft top highlight and a deep drop shadow, laid over a CSS-only "room at dusk" backdrop. No images are used.
+The glass look is made of a frosted card (`backdrop-filter: blur() saturate()`), a soft top highlight and a deep drop shadow, laid over a plain deep-navy CSS backdrop with a soft cobalt light. No images are used.
 
 ## Getting started
 
 You need Node.js 20 or later.
 
 ```bat
-cd C:\Projects\prism
+git clone https://github.com/DiogoS7/QualityView.git
+cd QualityView
 npm install
 npm run dev
 ```
@@ -105,7 +106,7 @@ All numbers come from pure functions in `lib/metrics.js`, so the logic is tested
 
 ## Why I built it
 
-As a QA consultant I spend a lot of each release answering the same questions in different spreadsheets. *Are we on track? What's blocking go-live? Is REQ-104 covered?* Prism puts those answers in one place, framed the way a client steering meeting asks them. It's also a chance to show front-end work alongside my Salesforce ([Launchpad](https://github.com/DiogoS7/Launchpad)) and Power Platform ([Houston](https://github.com/DiogoS7/Houston)) projects.
+As a QA consultant I spend a lot of each release answering the same questions in different spreadsheets. *Are we on track? What's blocking go-live? Is REQ-104 covered?* QualityView puts those answers in one place, framed the way a client steering meeting asks them. It's also a chance to show front-end work alongside my Salesforce ([Launchpad](https://github.com/DiogoS7/Launchpad)) and Power Platform ([Houston](https://github.com/DiogoS7/Houston)) projects.
 
 ## License
 

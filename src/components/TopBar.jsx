@@ -14,6 +14,7 @@ import {
   LuChevronRight,
 } from 'react-icons/lu';
 import Avatar from './Avatar.jsx';
+import LogoMark from './LogoMark.jsx';
 import Popover, { PopoverHeader } from './Popover.jsx';
 import { SEVERITY_COLOURS } from './SeverityCard.jsx';
 import { messages as initialMessages, people, profileLinks } from '../data/release.js';
@@ -155,7 +156,7 @@ function NotificationsMenu({ alerts, onOpenDefect, onViewAlerts }) {
 function ProfileMenu() {
   const me = people.DS;
   const links = [
-    { href: profileLinks.repo, label: 'Prism source code', icon: LuCode },
+    { href: profileLinks.repo, label: 'QualityView source code', icon: LuCode },
     { href: profileLinks.github, label: 'GitHub', icon: LuGithub },
     { href: profileLinks.linkedin, label: 'LinkedIn', icon: LuLinkedin },
     { href: profileLinks.portfolio, label: 'Portfolio', icon: LuGlobe },
@@ -194,20 +195,10 @@ function ProfileMenu() {
 export default function TopBar({ tab, onTab, alerts, onOpenDefect, onViewAlerts, onOpenSearch }) {
   return (
     <header className="sticky top-3 z-30 mb-7">
-      <div className="glass flex items-center justify-between gap-3 rounded-[22px] !bg-[#16161f]/55 py-2 pr-2 pl-3 sm:pl-4">
-      <button onClick={() => onTab('overview')} className="flex items-center gap-2.5" aria-label="Prism home">
-        <svg viewBox="0 0 64 64" className="size-9" aria-hidden="true">
-          <defs>
-            <linearGradient id="logo" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#6aa2ff" />
-              <stop offset=".5" stopColor="#8b7bff" />
-              <stop offset="1" stopColor="#f5a524" />
-            </linearGradient>
-          </defs>
-          <path d="M32 10 54 50H10Z" fill="none" stroke="url(#logo)" strokeWidth="5" strokeLinejoin="round" />
-          <path d="M20 38h24" stroke="url(#logo)" strokeWidth="4" strokeLinecap="round" opacity=".8" />
-        </svg>
-        <span className="hidden text-lg font-bold tracking-tight sm:inline">Prism</span>
+      <div className="glass flex items-center justify-between gap-3 rounded-[22px] !bg-[#131a2b]/55 py-2 pr-2 pl-3 sm:pl-4">
+      <button onClick={() => onTab('overview')} className="flex items-center gap-2.5" aria-label="QualityView home">
+        <LogoMark size={38} />
+        <span className="hidden text-lg font-bold tracking-tight sm:inline">QualityView</span>
       </button>
 
       <nav className="flex gap-1.5 sm:gap-2" aria-label="Views">
